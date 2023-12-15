@@ -104,8 +104,11 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         return res.sendStatus(401).json({error: ""})
     }
 
-    jwt.verify(authHeader, process.env.JWT_SECRET, (error) => {
-        return res.sendStatus(403)
+    jwt.verify(authHeader, process.env.JWT_SECRET, {}, (error, user) => {
+        if(error) {
+            return res.sendStatus(403)
+        }
+        // res.json(user)
     })
 
     next();
