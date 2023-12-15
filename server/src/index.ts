@@ -20,11 +20,15 @@ app.use(cors());
 
 
 
+//              Routes:
+        
 // for /user endpoint routes
 app.use("/user", userRouter);
 
 //fpr /product endpoint routes
 app.use("/product", productRouter);
+
+
 
 
 
@@ -39,11 +43,6 @@ mongoose.connect(process.env.DB_URI)
 })
 
 
-
-
-app.get("/", (req, res) => {
-    res.send("<h1>hello world</h1>")
-})
 
 app.listen(port, () => {
     console.log(`listening the port ${port}`)
