@@ -1,16 +1,17 @@
 import mongoose, { Schema } from "mongoose";
 
 interface ProductModelInterface {
-    name: string;
+    title: string;
     quantity: number;
     price: number;
     description: string;
     _id?: string;
-    imgURL: string;
+    image: string;
+    category: string;
 }
 
 const ProductSchema = new Schema<ProductModelInterface>({
-    name: {
+    title: {
         type: String,
         required: true
     },
@@ -28,7 +29,11 @@ const ProductSchema = new Schema<ProductModelInterface>({
         type: String,
         required: true,
     },
-    imgURL: {
+    image: {
+        type: String,
+        required: true,
+    },
+    category: {
         type: String,
         required: true,
     }
