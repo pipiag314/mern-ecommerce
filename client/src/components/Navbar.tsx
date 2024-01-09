@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Navbar = () => {
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
   
   return (
     <nav className="flex justify-between">
@@ -26,6 +26,9 @@ const Navbar = () => {
                         <Link to={'/checkout'}>
                             <FaCartShopping size={22} />
                         </Link>
+                    </li>
+                    <li>
+                        <button onClick={() => setIsUserLoggedIn(false)}>Log out</button>
                     </li>
                 </ul>
             </div>
