@@ -1,3 +1,4 @@
+import ProductCard from "../components/ProductCard";
 import { useGetProducts } from "../hooks/useGetProducts"
 
 const Marketplace = () => {
@@ -7,15 +8,11 @@ const Marketplace = () => {
   return (
     <div className="">
         <h1 className="text-center">Marketplace Page</h1>
-        <div>
-          {!products && <div>Loading...</div>}
-          {products?.map((product: any) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
+          {!products ? <div>Loading...</div>
+          : products?.map((product: any, index: number) => {
             return (
-              <div>
-                <h1>{product.title}</h1>
-                <h2>{product.price}</h2>
-                <img src={product.image} />
-              </div>
+              <ProductCard key={index} product={product} />
             )
           })}
         </div>
