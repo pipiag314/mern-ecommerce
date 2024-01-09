@@ -5,6 +5,7 @@ export interface IProductsContext {
   removeFromCart: (itemId: string) => void;    
   updateCartItemCount: (newAmount: number, itemId: string) => void;    
   getCartItemCount: (itemId: string) => number;
+  itemsCount: number,
 }
 
 const defaultValue: IProductsContext = {
@@ -12,6 +13,7 @@ const defaultValue: IProductsContext = {
   removeFromCart: () => null,
   updateCartItemCount: () => null,
   getCartItemCount: () => 0,
+  itemsCount: 0,
 };
 
 export const ProductsContext = createContext<IProductsContext>(defaultValue);
@@ -19,6 +21,7 @@ export const ProductsContext = createContext<IProductsContext>(defaultValue);
 export const ProductsContextProvider = ({children}: {children: any}) => {
     const [cartItems, setCartItems] = useState<{string: number} | {}>({})
 
+    const itemsCount = Object.values(cartItems).reduce((a,b) => a + b, 0)
     
     const getCartItemCount = (itemId: string): number => {
       if(itemId in cartItems) {
@@ -51,6 +54,7 @@ export const ProductsContextProvider = ({children}: {children: any}) => {
       removeFromCart,
       updateCartItemCount,
       getCartItemCount,
+      itemsCount,
     };
     
   return (
