@@ -13,7 +13,7 @@ html,
 
 @layer utilities {
     .header {
-        @apply bg-blue-500 px-10 py-5 fixed w-full text-white text-lg font-semibold
+        @apply bg-blue-500 px-10 py-5 fixed w-full text-white text-lg font-semibold z-10
     }
 
     .body-wrapper {
