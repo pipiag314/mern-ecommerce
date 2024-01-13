@@ -1,14 +1,17 @@
 import { Link, useNavigate } from "react-router-dom"
-import { FormEvent, useState } from "react"
+import { FormEvent, useContext, useState } from "react"
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { ProductsContext } from "../context/productsContext";
 
 const Signin = () => {
 
   const [_, setCookie] = useCookies(["token"])
 
   const navigate = useNavigate();
+
+  const {setIsUserLoggedIn} = useContext(ProductsContext)
   
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -30,6 +33,7 @@ const Signin = () => {
         toast.success("Logged In succesfully")
         setCookie("token", data.token)
         localStorage.setItem("user_id", data.user_id);
+        setIsUserLoggedIn(true)
         navigate("/")
       }
       
