@@ -10,19 +10,14 @@ import axios from 'axios';
 axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
 
 import { ProductsContextProvider } from './context/productsContext';
-import { UserContext } from './context/UserContext';
+import { UserContextProvider } from './context/UserContext';
 
 function App() {
-
-  const user = {
-    token: "",
-    user_id: ""
-  }
   
   return (
     <ProductsContextProvider>
-      <div className=''>
-        <UserContext.Provider value={user}>
+      <UserContextProvider>
+        <div className=''>
           <header className='header'>
             <Navbar />
           </header>
@@ -33,11 +28,10 @@ function App() {
               <Route path='/signin' element={<Signin />} />
               <Route path='/checkout' element={<Checkout />} />
               <Route path='/purchased' element={<Purchased />} />
-              
             </Routes>
           </div>
-        </UserContext.Provider>
-      </div>
+        </div>
+      </UserContextProvider>
     </ProductsContextProvider>
   )
 }
