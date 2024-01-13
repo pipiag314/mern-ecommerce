@@ -1,46 +1,61 @@
-import { Link } from "react-router-dom";
-import { FaCartShopping } from "react-icons/fa6"
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
+import { useContext, useEffect, useState } from "react";
+import { ProductsContext } from "../context/productsContext";
+import logo from "../../public/ecommerce-logo.svg";
+import { useCookies } from "react-cookie";
+import toast from "react-hot-toast/headless";
 
 const Navbar = () => {
-
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+  // const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+  const { isUserLoggedIn, setIsUserLoggedIn } = useContext(ProductsContext)
+  const { userMoney } = useContext(ProductsContext);
+  const [_, setCookies] = useCookies(["token"]);
+  const navigate = useNavigate();
   
+  const logout = () => {
+    localStorage.clear();
+    setCookies("token", null);
+    setIsUserLoggedIn(false);
+    navigate("/")
+    toast.success("Logged Out Succesfully");
+  };
+
   return (
     <nav className="flex justify-between">
+      <div>
+        <Link to="/" className="flex items-center gap-2 ">
+          <img src={logo} alt="ecommerce-logo" className="w-[28px] h-[28px]" />
+          <span>Ecommerce App</span>
+        </Link>
+      </div>
+
+      {isUserLoggedIn ? (
         <div>
-            <Link to="/">Ecommerce App</Link>
+          <ul className="flex gap-10 items-center">
+            <li>
+              <Link to={"/"}>Marketplace</Link>
+            </li>
+            <li>
+              <Link to={"/purchased"}>Purchased Items</Link>
+            </li>
+            <li className="flex justify-center items-center gap-2">
+              <Link to={"/checkout"}>
+                <FaCartShopping size={22} />
+              </Link>
+              <p>${userMoney.toFixed(2)}</p>
+            </li>
+            <li>
+              <button onClick={logout}>Log out</button>
+            </li>
+          </ul>
         </div>
-
-        {isUserLoggedIn ? (
-
-            <div>
-                <ul className="flex gap-10 items-center">
-                    <li>
-                        <Link to={'/'}>Marketplace</Link>
-                    </li>
-                    <li>
-                        <Link to={'/purchased'}>Purchased Items</Link>
-                    </li>
-                    <li>
-                        <Link to={'/checkout'}>
-                            <FaCartShopping size={22} />
-                        </Link>
-                    </li>
-                    <li>
-                        <button onClick={() => setIsUserLoggedIn(false)}>Log out</button>
-                    </li>
-                </ul>
-            </div>
-
-        ) : (
-            <div className="flex gap-5">
-                <Link to="/signin">Sign In</Link>
-                <Link to="/register">Register</Link>
-            </div>
-        )}
-        
-        
+      ) : (
+        <div className="flex gap-5">
+          <Link to="/signin">Sign In</Link>
+          <Link to="/register">Register</Link>
+        </div>
+      )}
     </nav>
   );
 };
