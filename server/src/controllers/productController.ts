@@ -52,20 +52,20 @@ export const checkoutProduct = async (req: Request, res: Response) => {
         const products = await ProductModel.find({ _id: { $in: productIds}})
         
         if(!user) {
-            return res.status(400).json({
+            return res.json({
                 error: "User not found"
             })
         }
 
         
         if(!products) {
-            return res.status(400).json({
+            return res.json({
                 error: "Products not found"
             })
         }
 
         if(productIds.length !== products.length) {
-            return res.status(400).json({ error: "getting items incorrectly from database"})
+            return res.json({ error: "getting items incorrectly from database"})
         }
 
         let itemsTotalPrice = 0;
@@ -73,11 +73,11 @@ export const checkoutProduct = async (req: Request, res: Response) => {
         for(const item in cartItems) {
             const product = products.find((product: { _id: string; }) => String(product._id) === item)
             if(!product) {
-                return res.status(400).json({ error: "Getting items incorrectly from database"})
+                return res.json({ error: "Getting items incorrectly from database"})
             }
             
             if(product.quantity < cartItems[item]) {
-                return res.status(400).json({ error: "Item is out of stock"})
+                return res.json({ error: "Item is out of stock"})
             }
             
             itemsTotalPrice += product.price * cartItems[item];
@@ -85,7 +85,7 @@ export const checkoutProduct = async (req: Request, res: Response) => {
         }
 
         if(user.money < itemsTotalPrice) {
-            return res.status(400).json({ error: "Not enough money"})
+            return res.json({ error: "Not enough money"})
         }
 
         user.money -= itemsTotalPrice;
@@ -94,9 +94,13 @@ export const checkoutProduct = async (req: Request, res: Response) => {
 
         await user.save()
 
-        await ProductModel.updateMany({_id: {$in: productIds}}, {$inc: {quantity: -1}})
+        for(const item in cartItems) {
+            await ProductModel.updateOne({_id: item}, {$inc: {quantity: -1 * cartItems[item]}}) 
+        }
         
-        res.json({ purchasedItems: user.purchasedItems})
+        // await ProductModel.updateMany({_id: {$in: productIds}}, {$inc: {quantity: -1}})
+        
+        return res.json({ purchasedItems: user.purchasedItems})
 
         
     } catch (error) {

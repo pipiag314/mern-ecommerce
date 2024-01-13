@@ -3,6 +3,7 @@ import { UserModel, UserModelInterface } from "../models/user";
 import { hashPassword } from "../helper";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import { ProductModel } from "../models/product";
 
 // Register endpoint
 export const registerUser = async (req: Request, res: Response) => {
@@ -101,15 +102,46 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     const authHeader = req.headers.authorization
 
     if(!authHeader) {
-        return res.sendStatus(401).json({error: ""})
+        return res.sendStatus(401).json({error: "No authorization in headers"})
+    } else {
+        jwt.verify(authHeader, process.env.JWT_SECRET, {}, (error, user) => {
+            if(error) {
+                return res.sendStatus(403).json({error: "invalid authorization in headers"})
+            }
+            // res.json(user)
+        })
     }
 
-    jwt.verify(authHeader, process.env.JWT_SECRET, {}, (error, user) => {
-        if(error) {
-            return res.sendStatus(403)
-        }
-        // res.json(user)
-    })
 
     next();
+}
+
+
+export const userMoney = async (req: Request, res: Response) => {
+    const { userId } = req.params
+    try {
+        const user = await UserModel.findById(userId)
+        if(!user) {
+            return res.status(400).json({error: "No User found"})
+        }
+        return res.json({money: user.money})
+    } catch (error) {
+        console.log("Error: ", error)
+    }
+}
+
+export const userPurchasedItems = async (req: Request, res: Response) => {
+    const { userId } = req.params
+
+    try {
+        const user = await UserModel.findById(userId);
+        if(!user) res.status(400).json({error: "User Not Found"})
+    
+        const products = await ProductModel.find({ _id: { $in: user.purchasedItems}})
+        
+        res.json({purchasedItems: products})   
+    } catch (error) {
+        console.log("Error: ", error)        
+    }
+
 }
