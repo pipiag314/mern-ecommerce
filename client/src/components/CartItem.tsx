@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { ProductInterface } from "../interface";
 import { IProductsContext, ProductsContext } from "../context/productsContext";
 
@@ -6,8 +6,8 @@ import { HiOutlineTrash } from "react-icons/hi2"
 
 
 const CartItem = ({ product }: { product: ProductInterface }) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const { _id, category, description, image, price, quantity, title } = product;
+  // const [expanded, setExpanded] = useState<boolean>(false);
+  const { _id, image, price, title } = product;
   const { getCartItemCount, updateCartItemCount, removeFromCart } =
     useContext<IProductsContext>(ProductsContext);
 
