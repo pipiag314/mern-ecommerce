@@ -16,7 +16,13 @@ const port = process.env.PORT
 app.use(express.json());
 
 // for connection through the client 
-app.use(cors());
+app.use(cors(
+    // {
+    //     origin: ["https://my-vercel-app.vercel.app"],
+    //     methods: ["GET", "POST"],
+    //     credentials: true,
+    // }
+));
 
 
 
@@ -29,6 +35,11 @@ app.use("/user", userRouter);
 app.use("/product", productRouter);
 
 
+
+
+app.get("/", (req, res) => {
+    res.send("Hello!")
+})
 
 
 
