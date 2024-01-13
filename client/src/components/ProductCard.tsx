@@ -9,7 +9,7 @@ type ProductCardProp = {
 const ProductCard: React.FC<ProductCardProp> = ({ product }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
-  const { title, category, description, image, price, quantity, _id } = product;
+  const { title, description, image, price, quantity, _id } = product;
 
   const {addToCart, getCartItemCount} = useContext<IProductsContext>(ProductsContext);
 
