@@ -16,7 +16,17 @@ const port = process.env.PORT
 app.use(express.json());
 
 // for connection through the client 
-app.use(cors({ credentials: true }));
+app.use(cors({
+    origin: (origin, callback) => {
+        if(['http://my-ecommerce-mern-api.onrender.com/'].indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error("Not allowed by CORS"))
+        }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+}));
 
 
 
