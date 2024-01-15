@@ -11,6 +11,11 @@ html,
     box-sizing: border-box;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
 @layer utilities {
     .header {
         @apply bg-blue-500 px-10 py-5 fixed w-full text-white text-lg font-semibold z-10

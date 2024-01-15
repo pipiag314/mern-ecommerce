@@ -17,13 +17,7 @@ app.use(express.json());
 
 // for connection through the client 
 app.use(cors({
-    origin: (origin, callback) => {
-        if(['http://my-ecommerce-mern-api.onrender.com/'].indexOf(origin) !== -1 || !origin) {
-            callback(null, true)
-        } else {
-            callback(new Error("Not allowed by CORS"))
-        }
-    },
+    origin: "*",
     credentials: true,
     optionsSuccessStatus: 200,
 }));
