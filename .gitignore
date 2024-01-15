@@ -24,3 +24,6 @@ dist-ssr
 
 # enviroment variables
 .env
+
+# build files
+build

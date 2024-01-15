@@ -20,7 +20,7 @@ const Signin = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post("/login", {
+      const { data } = await axios.post("/user/login", {
         username,
         password
       })

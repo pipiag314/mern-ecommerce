@@ -16,13 +16,7 @@ const port = process.env.PORT
 app.use(express.json());
 
 // for connection through the client 
-app.use(cors(
-    {
-        origin: ["https://mern-ecommerce-crnzapdyt-gelas-projects.vercel.app/"],
-        methods: ["GET", "POST"],
-        credentials: true,
-    }
-));
+app.use(cors());
 
 
 

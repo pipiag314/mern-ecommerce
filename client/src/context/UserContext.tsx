@@ -8,14 +8,14 @@ interface IUserContext {
     setIsUserLoggedIn: (isUserLoggedIn: boolean) => void;
 }
 
-const defaultValue = {
+const defaultValue: IUserContext = {
     number: 0,
     isUserLoggedIn: false,
-    setIsUserLoggedIn: (_isUserLoggedIn: false) => null,
+    setIsUserLoggedIn: (isUserLoggedIn: any) => console.log(isUserLoggedIn),
 }
 
 
-export const UserContext = createContext<IUserContext>(defaultValue);
+export const UserContext = createContext(defaultValue);
 
 export const UserContextProvider = ({ children }: {children: any}) => {
     const [cookies, _] = useCookies(["token"])

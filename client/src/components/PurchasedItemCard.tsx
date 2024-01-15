@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { ProductInterface } from "../interface"
 import { IProductsContext, ProductsContext } from "../context/productsContext";
 
@@ -8,9 +8,7 @@ type PurchasedItemCardProp = {
 }
 
 const PurchasedItemCard: React.FC<PurchasedItemCardProp> = ({product}) => {
-    const [expanded, setExpanded] = useState<boolean>(false);
-  
-    const { title, description, image, price, _id } = product;
+    const { title, image, price, _id } = product;
   
     const {addToCart, getCartItemCount} = useContext<IProductsContext>(ProductsContext);
   

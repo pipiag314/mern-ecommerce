@@ -1,17 +1,20 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useGetToken } from "../hooks/useGetToken";
 import toast from "react-hot-toast";
 import { ProductInterface } from "../interface";
-import { UserContext } from "./UserContext";
 import { useCookies } from "react-cookie";
+
+
+const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
+
 
 export interface IProductsContext {
   addToCart: (itemId: string) => void;
   removeFromCart: (itemId: string) => void;
   updateCartItemCount: (newAmount: number, itemId: string) => void;
   getCartItemCount: (itemId: string) => number;
-  itemsCount: number;
+  itemsCount: any;
   buyItems: () => void;
   userMoney: number;
   userPurchasedItems: ProductInterface[];
@@ -38,7 +41,7 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
   const [cookies, _] = useCookies(["token"])
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(cookies.token !== null);
   
-  const [cartItems, setCartItems] = useState<{ string: number } | {}>({});
+  const [cartItems, setCartItems] = useState<any>({});
 
   const [userMoney, setUserMoney] = useState<number>(0);
   const [userPurchasedItems, setUserPurchasedItems] = useState([]);
@@ -46,7 +49,7 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
   const { headers } = useGetToken();
 
   
-  const itemsCount = Object.values(cartItems).reduce((a, b) => a + b, 0);
+  const itemsCount = Object.values(cartItems).reduce((a: any, b: any) => a + b, 0);
 
   const getCartItemCount = (itemId: string): number => {
     if (itemId in cartItems) {
@@ -58,20 +61,20 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
 
   const addToCart = (itemId: string) => {
     if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
+      setCartItems((prev: any) => ({ ...prev, [itemId]: 1 }));
     } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+      setCartItems((prev: any) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     }
   };
 
   const removeFromCart = (itemId: string) => {
     if (!cartItems[itemId]) return;
     if (cartItems[itemId] === 0) return;
-    setCartItems((prev) => ({ ...prev, [itemId]: 0 }));
+    setCartItems((prev: any) => ({ ...prev, [itemId]: 0 }));
   };
 
   const updateCartItemCount = (newAmount: number, itemId: string) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: newAmount }));
+    setCartItems((prev: any) => ({ ...prev, [itemId]: newAmount }));
   };
 
   const buyItems = async () => {
@@ -82,7 +85,7 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/product/checkout",
+        `${BASE_API_URL}product/checkout`,
         body,
         {
           headers,
@@ -103,7 +106,7 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
 
   const fetchUserMoney = async () => {
     const res = await axios.get(
-      `http://localhost:8000/user/money/${localStorage.getItem("user_id")}`,
+      `${BASE_API_URL}user/money/${localStorage.getItem("user_id")}`,
       {
         headers,
       }
@@ -113,7 +116,7 @@ export const ProductsContextProvider = ({ children }: { children: any }) => {
 
   const fetchPurchasedItems = async () => {
     const res = await axios.get(
-      `http://localhost:8000/user/purchaseditems/${localStorage.getItem(
+      `${BASE_API_URL}user/purchaseditems/${localStorage.getItem(
         "user_id"
       )}`,
       {

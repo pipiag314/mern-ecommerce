@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ProductsContext } from "../context/productsContext";
-import logo from "../../public/ecommerce-logo.svg";
 import { useCookies } from "react-cookie";
 import toast from "react-hot-toast/headless";
 
@@ -25,7 +24,7 @@ const Navbar = () => {
     <nav className="flex justify-between">
       <div>
         <Link to="/" className="flex items-center gap-2 ">
-          <img src={logo} alt="ecommerce-logo" className="w-[28px] h-[28px]" />
+          <img src="ecommerce-logo.svg" alt="ecommerce-logo" className="w-[28px] h-[28px]" />
           <span>Ecommerce App</span>
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ProductsContext } from "../context/productsContext";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { ProductInterface } from "../interface";
@@ -11,7 +11,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   
   const { getCartItemCount, itemsCount, buyItems } = useContext(ProductsContext);
-  const products = useGetProducts();
+  const products: any = useGetProducts();
 
   let subtotal = 0;
   products?.map((product: any) => {
