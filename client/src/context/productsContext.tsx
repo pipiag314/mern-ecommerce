@@ -3,8 +3,6 @@ import { createContext, useEffect, useState } from "react";
 import { useGetToken } from "../hooks/useGetToken";
 import toast from "react-hot-toast";
 import { ProductInterface } from "../interface";
-import { useCookies } from "react-cookie";
-
 
 const BASE_API_URL = import.meta.env.VITE_BASE_API_URL;
 
