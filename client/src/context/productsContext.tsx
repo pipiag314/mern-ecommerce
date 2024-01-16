@@ -38,8 +38,7 @@ const defaultValue: IProductsContext = {
 export const ProductsContext = createContext<IProductsContext>(defaultValue);
 
 export const ProductsContextProvider = ({ children }: { children: any }) => {
-  const [cookies, _] = useCookies(["token"])
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(cookies.token !== null);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("user_id") !== null);
   
   const [cartItems, setCartItems] = useState<any>({});
 
